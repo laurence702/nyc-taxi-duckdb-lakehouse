@@ -10,7 +10,7 @@ It runs on a laptop with DuckDB. There is no cluster and no cloud account.
 ## Why this exists
 
 Real data is dirty, and the interesting engineering is deciding what to do
-about it. Profiling the raw file found, among other things, 159,238 pickups
+about it. Profiling the raw file found, among other things, 171,704 pickups
 outside New York City (170,212 of them at coordinates `0,0`), 64,065 trips of
 zero distance and 31 trips that end before they start. This project makes
 those decisions explicit and auditable instead of silently filtering rows.
@@ -54,7 +54,7 @@ make test
 make all
 ```
 
-Requires Python 3.9+ (standard library only) and the `duckdb` CLI on your PATH.
+Requires Python 3 (standard library only; tested on 3.14) and the `duckdb` CLI on your PATH.
 
 ## Results (measured on a 16 GB laptop)
 
@@ -68,7 +68,8 @@ Requires Python 3.9+ (standard library only) and the `duckdb` CLI on your PATH.
 | Credit card tips | 22.7% average, 96.6% of trips tipped |
 | Cash tips | recorded as 0 in this dataset (cash tips are not captured) |
 
-Reject reasons: `pickup_outside_nyc` 159,238, `nonpositive_distance` 64,065,
+Reject reasons (each row counted once, under the first rule it breaks, so
+these differ slightly from the raw profile above): `pickup_outside_nyc` 159,238, `nonpositive_distance` 64,065,
 `nonpositive_fare` 5,304, `invalid_passenger_count` 158,
 `distance_over_100_miles` 85, `dropoff_before_pickup` 31.
 
