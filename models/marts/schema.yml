@@ -1,0 +1,66 @@
+version: 2
+
+models:
+  - name: fct_trips
+    description: "Curated fact table containing only accepted trips."
+    columns:
+      - name: trip_id
+        description: "Primary key for curated trips."
+        tests:
+          - unique
+          - not_null
+      - name: pickup_at
+        tests:
+          - not_null
+      - name: dropoff_at
+        tests:
+          - not_null
+      - name: fare_amount
+        tests:
+          - not_null
+      - name: total_amount
+        tests:
+          - not_null
+      - name: payment_method
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['credit_card', 'cash', 'no_charge', 'dispute', 'other']
+
+  - name: trips_rejected
+    description: "Quarantine table for rejected trips with reject reasons."
+    columns:
+      - name: trip_id
+        tests:
+          - not_null
+      - name: reject_reason
+        tests:
+          - not_null
+
+  - name: agg_hourly_demand
+    description: "Aggregated hourly demand metrics."
+    columns:
+      - name: pickup_date
+        tests:
+          - not_null
+      - name: pickup_hour
+        tests:
+          - not_null
+
+  - name: agg_tip_by_payment
+    description: "Aggregated tipping metrics by payment method."
+    columns:
+      - name: payment_method
+        tests:
+          - not_null
+
+  - name: agg_pickup_grid
+    description: "Aggregated trip counts by geographic grid cells."
+    columns:
+      - name: pickup_grid_lat
+        tests:
+          - not_null
+      - name: pickup_grid_lon
+        tests:
+          - not_null
