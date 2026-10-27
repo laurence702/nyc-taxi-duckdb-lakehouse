@@ -84,11 +84,19 @@ vacuous.
 
 ## The runner and dbt
 
-`lakehouse/runner.py` is a small stand-in for dbt: it reads
-`{{ ref('model') }}` and `{{ source('raw', 'trips') }}`, builds the dependency
-graph, runs models in order and executes the tests. The SQL is written so it
-can move to dbt-duckdb with a `dbt_project.yml` and a `profiles.yml` and no
-changes to the models.
+`lakehouse/runner.py` is a zero-dependency stand-in for dbt that reads `{{ ref('model') }}` and `{{ source('raw', 'trips') }}`, resolves the dependency DAG, materialises models, and runs tests.
+
+For full dbt workflows, the project includes `dbt_project.yml`, `profiles.yml`, and `schema.yml` configurations powered by `dbt-duckdb`:
+
+```bash
+# Build all models and execute singular and schema tests:
+make dbt-build
+# or directly:
+.venv/bin/dbt build --profiles-dir .
+```
+
+The staging model runs as a view directly querying the underlying raw parquet file via `sources.yml`, while fact and aggregate marts materialise as DuckDB tables.
+
 
 ## Known limits
 

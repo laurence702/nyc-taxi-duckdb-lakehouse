@@ -16,4 +16,12 @@ build:
 check:
 	python3 -m lakehouse.runner test
 
+# dbt workflow using local duckdb profile
+dbt-build:
+	.venv/bin/dbt build --profiles-dir .
+
+dbt-test:
+	.venv/bin/dbt test --profiles-dir .
+
 all: ingest build check
+
