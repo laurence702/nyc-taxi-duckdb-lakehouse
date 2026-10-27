@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: stg_trips
+    description: "Staging view typing raw trip columns and computing reject reason."
+    columns:
+      - name: trip_id
+        description: "Row number identifier from raw file."
+        tests:
+          - unique
+          - not_null
+      - name: reject_reason
+        description: "Reason if row is rejected, otherwise NULL."

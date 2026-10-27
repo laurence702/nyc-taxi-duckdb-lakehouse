@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw taxi trips ingested from NYC TLC records"
+    tables:
+      - name: trips
+        description: "Raw parquet trips file with row numbers preserved"
+        meta:
+          external_location: "read_parquet('data/raw/trips_raw.parquet', file_row_number=true)"
